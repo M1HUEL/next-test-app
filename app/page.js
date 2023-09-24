@@ -4,20 +4,9 @@ import {useSession, signIn, signOut} from "next-auth/react";
 
 import {useRouter} from "next/router";
 
-export default function Home({session, status}) {
+export default function Home() {
 
     const {data: session, status} = useSession()
-
-    function handleSignIn() {
-        signIn('github')
-            .then(() => {
-                const router = useRouter();
-                router.push('/dashboard'); // Redirige a la página de dashboard después de iniciar sesión
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
 
     if (status === "loading") {
         return <div className="min-h-screen flex flex-col items-center justify-center p-12">
@@ -58,7 +47,9 @@ export default function Home({session, status}) {
                                 </div>
                             </div>
 
-                            <button placeholder="Register" className="py-4 cursor-pointer text-white bg-black" onClick={handleSignIn}>Register</button>
+                            <button placeholder="Register" className="py-4 cursor-pointer text-white bg-black" onClick={() => {
+                                signIn("github")
+                            }}>Register</button>
                         </div>
                     }
                 </div>
